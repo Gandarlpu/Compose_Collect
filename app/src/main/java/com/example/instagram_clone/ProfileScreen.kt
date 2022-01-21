@@ -31,6 +31,7 @@ fun ProfileScreen(){
     ){
         TopBar(name = "Chacne_Official")
         Spacer(modifier = Modifier.height(4.dp))
+        ProfileSection()
     }
 }
 
@@ -41,11 +42,12 @@ fun TopBar(
     modifier : Modifier = Modifier
 ){
     Row(
-        //suzik
+        //수직
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = modifier
             .fillMaxWidth()
+            .padding(vertical = 10.dp)
     ){
         Icon(
             imageVector = Icons.Default.ArrowBack,
@@ -75,7 +77,7 @@ fun TopBar(
     }
 }
 
-// profilePicture, selfContent ...
+// 프로필 사진, 구독자 수 ...
 @Composable
 fun ProfileSection(
     modifier : Modifier = Modifier
@@ -87,15 +89,20 @@ fun ProfileSection(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp) // side margine
         ){
-            RoundImage(image = painterResource(id = R.drawable.profileImage), modifier = Modifier
-                .size(100.dp)
-                .weight(3f) // 30% of all images are photos
+            RoundImage(
+                image = painterResource(id = R.drawable.profileimage),
+                modifier = Modifier
+                    .size(100.dp)
+                    .weight(3f) // 30% of all images are photos
             )
+            Spacer(modifier = Modifier.width(16.dp))
+            StateSection(modifier = Modifier.weight(7f))
         }
     }
 }
 
 // profilePicture (rounded or other decoration)
+// 15:07
 @Composable
 fun RoundImage(
     image : Painter,
@@ -104,7 +111,7 @@ fun RoundImage(
     Image(
         painter = image,
         contentDescription = "picture deco",
-        modifier = Modifier
+        modifier = modifier
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
             // this widget is width is automatically assigned according to the height.
             .border(
@@ -115,4 +122,42 @@ fun RoundImage(
             .padding(3.dp)
             .clip(CircleShape)
     )
+}
+
+// 게시글, 팔로워, 팔로윙
+@Composable
+fun StateSection(
+    modifier : Modifier = Modifier
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier
+    ) {
+        ProfileStat(numberText = "601", text = "Posts")
+        ProfileStat(numberText = "100K", text = "Followers")
+        ProfileStat(numberText = "71", text = "Followings")
+    }
+}
+
+// 숫자 뒤에 K를 붙이는 기능
+@Composable
+fun ProfileStat(
+    numberText : String,
+    text : String,
+    modifier : Modifier = Modifier
+){
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Text(
+            text = numberText,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+        )
+        Spacer(modifier = Modifier.height(4.dp)) // 두개의 Text사이의 간격 조절
+        Text(text = text)
+    }
 }
